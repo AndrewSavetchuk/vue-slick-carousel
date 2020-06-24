@@ -786,6 +786,8 @@ export const checkSpecKeys = (spec, keysArray) =>
     ? null
     : console.error('Keys Missing:', spec) // eslint-disable-line no-console
 
+let maxLeft = 0;
+
 export const getTrackCSS = spec => {
   checkSpecKeys(spec, [
     'left',
@@ -807,6 +809,17 @@ export const getTrackCSS = spec => {
     WebkitTransition: '',
   }
   if (spec.useTransform) {
+    let widthFixer = spec.slidesToShow - 1
+    if (spec.sliderAmount) {
+      // If this is the last slide, use our fix:
+      if (!spec.vertical && spec.sliderAmount === spec.index) {
+        maxLeft = spec.left + spec.slideWidth * widthFixer
+        spec.left = maxLeft
+      }
+      if (!spec.vertical && maxLeft !== 0 && spec.left < maxLeft) {
+        spec.left = maxLeft
+      }
+    }
     let WebkitTransform = !spec.vertical
       ? 'translate3d(' + spec.left + 'px, 0px, 0px)'
       : 'translate3d(0px, ' + spec.left + 'px, 0px)'
