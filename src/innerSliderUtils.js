@@ -811,7 +811,7 @@ export const getTrackCSS = spec => {
   if (spec.useTransform) {
     let widthFixer = spec.slidesToShow - 1
     let slidesAmount = getTotalSlides(spec) - 1
-    if (slidesAmount) {
+    if (spec.paddingRightFixer) {
       // If this is the last slide, use our fix:
       if (!spec.vertical && slidesAmount === spec.index) {
         maxLeft = spec.left + spec.slideWidth * widthFixer
