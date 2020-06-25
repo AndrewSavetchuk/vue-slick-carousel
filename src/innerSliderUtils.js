@@ -747,7 +747,21 @@ export const getTrackLeft = spec => {
   verticalOffset = slidesToOffset * slideHeight
 
   if (!vertical) {
-    targetLeft = slideIndex * slideWidth * -1 + slideOffset
+    if (
+      spec.slideCount - 1 === spec.index ||
+      spec.slideCount === spec.index ||
+      (spec.currentSlide > spec.slideCount - 2 &&
+        spec.index !== spec.slideCount - 2)
+    ) {
+      let widthFixer = spec.slidesToShow - 1
+      targetLeft =
+        slideIndex * slideWidth * -1 +
+        slideOffset +
+        spec.slideWidth * widthFixer -
+        spec.paddingRightFixer
+    } else {
+      targetLeft = slideIndex * slideWidth * -1 + slideOffset
+    }
   } else {
     targetLeft = slideIndex * slideHeight * -1 + verticalOffset
   }
@@ -786,8 +800,6 @@ export const checkSpecKeys = (spec, keysArray) =>
     ? null
     : console.error('Keys Missing:', spec) // eslint-disable-line no-console
 
-let maxLeft = 0;
-
 export const getTrackCSS = spec => {
   checkSpecKeys(spec, [
     'left',
@@ -809,17 +821,6 @@ export const getTrackCSS = spec => {
     WebkitTransition: '',
   }
   if (spec.useTransform) {
-    let widthFixer = spec.slidesToShow - 1
-    let slidesAmount = getTotalSlides(spec) - 1
-    if (spec.paddingRightFixer) {
-      // If this is the last slide, use our fix:
-      if (!spec.vertical && slidesAmount === spec.index) {
-        maxLeft = spec.left + spec.slideWidth * widthFixer
-      }
-      if (!spec.vertical && maxLeft !== 0 && spec.left < maxLeft) {
-        spec.left = maxLeft - spec.paddingRightFixer
-      }
-    }
     let WebkitTransform = !spec.vertical
       ? 'translate3d(' + spec.left + 'px, 0px, 0px)'
       : 'translate3d(0px, ' + spec.left + 'px, 0px)'
