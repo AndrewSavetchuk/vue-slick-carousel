@@ -31,8 +31,9 @@ export default {
       edgeFriction: 0.35,
       infinite: false,
       speed: 500,
-      slidesToShow: 1,
+      slidesToShow: 1.3,
       slidesToScroll: 1,
+      slidesAmount: 5,
     },
   },
   multiple: {
