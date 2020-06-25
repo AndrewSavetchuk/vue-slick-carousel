@@ -33,7 +33,7 @@ export default {
       speed: 500,
       slidesToShow: 1.3,
       slidesToScroll: 1,
-      slidesAmount: 5,
+      paddingRightFixer: 10,
     },
   },
   multiple: {

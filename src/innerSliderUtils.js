@@ -810,14 +810,14 @@ export const getTrackCSS = spec => {
   }
   if (spec.useTransform) {
     let widthFixer = spec.slidesToShow - 1
-    let slidesAmount = spec.slidesAmount - 1
+    let slidesAmount = getTotalSlides(spec) - 1
     if (slidesAmount) {
       // If this is the last slide, use our fix:
       if (!spec.vertical && slidesAmount === spec.index) {
         maxLeft = spec.left + spec.slideWidth * widthFixer
       }
       if (!spec.vertical && maxLeft !== 0 && spec.left < maxLeft) {
-        spec.left = maxLeft - spec.paddingRightFixed
+        spec.left = maxLeft - spec.paddingRightFixer
       }
     }
     let WebkitTransform = !spec.vertical
